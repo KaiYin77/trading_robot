@@ -1,4 +1,4 @@
 # Trading_robot
 
 ## TODO:
-- [] start the first python code
+- [ ] start the first python code
