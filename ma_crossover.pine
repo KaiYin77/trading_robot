@@ -1,0 +1,26 @@
+// © Trader-Alex
+//@version=4
+//@version=4
+study(title="[Alex] BB+MA Beginner Strategy", shorttitle="[Alex] BB+MA Beginner Strategy", overlay=true, resolution="")
+// BB(21,close,2.5), Bollinger Bands
+BB_length = input(21, minval=1)
+BB_src = input(close, title="BB_Source")
+BB_mult = input(2.5, minval=0.001, maxval=50.000)
+BB_basis = sma(BB_src, BB_length)
+BB_dev = BB_mult * stdev(BB_src, BB_length)
+BB_upper = BB_basis + BB_dev
+BB_lower = BB_basis - BB_dev
+plot(BB_basis, color=color.red, linewidth=2)
+p1 = plot(BB_upper, color=color.black, linewidth=1)
+p2 = plot(BB_lower, color=color.black, linewidth=1)
+//fill(p1, p2)
+// MA(7), Moving Average
+MA_len = input(7, minval=1, title="MA_Length")
+MA_src = input(close, title="MA_Source")
+MA_offset = input(title="MA_Offset", type=input.integer, defval=0, minval=-500, maxval=500)
+MA_7 = sma(MA_src, MA_len)
+plot(MA_7, color=color.blue, linewidth=1, title="MA", offset=MA_offset)
+longCondition = crossover(MA_7, BB_basis) and close <= BB_upper + 0.01 * BB_upper
+shortCondition = crossunder(MA_7,BB_basis) and close >= BB_lower - 0.01 * BB_lower
+plotshape(longCondition ,title="Long",color=color.green,location=location.belowbar,style=shape.labelup, text= "Long", textcolor=color.white, transp=0, size=size.small, offset=1)
+plotshape(shortCondition ,title="Short",color=color.red,location=location.abovebar,style=shape.labeldown, text = "Short", textcolor=color.white, transp=0, size=size.small, offset=1)
