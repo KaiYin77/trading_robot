@@ -14,4 +14,5 @@ git push -u origin main
 ```
 
 ## TODO:
-- [ ] start the first python code
+- [x] start the first python code
+- [ ] Revise semi-auto fibo retracement script
